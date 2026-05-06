@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biên mục Tài liệu – Thư viện Phenikaa</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:14px 32px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:99}
+.logo{font-size:18px;font-weight:700;color:#e6b450}
+.logo span{font-size:11px;color:#7d8590;margin-left:8px;font-family:monospace}
+nav{margin-left:auto;display:flex;gap:12px}
+nav a{color:#7d8590;text-decoration:none;font-size:13px;padding:6px 14px;border-radius:6px;border:1px solid #30363d}
+nav a:hover,nav a.active{color:#e6edf3;border-color:#58a6ff}
+.wrap{display:grid;grid-template-columns:400px 1fr;min-height:calc(100vh - 57px)}
+.sidebar{background:#161b22;border-right:1px solid #30363d;padding:24px;overflow-y:auto}
+.main{padding:28px;overflow-y:auto}
+.section-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#7d8590;padding-bottom:8px;border-bottom:1px solid #30363d;margin-bottom:16px;font-family:monospace}
+.form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:12px;color:#7d8590;font-family:monospace}
+input,select,textarea{background:#0d1117;border:1px solid #30363d;color:#e6edf3;padding:9px 12px;border-radius:6px;font-size:13px;width:100%;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#58a6ff;box-shadow:0 0 0 3px rgba(88,166,255,.1)}
+textarea{resize:vertical;min-height:60px}
+select option{background:#161b22}
+.btn{width:100%;padding:11px;border-radius:6px;border:none;cursor:pointer;font-size:14px;font-weight:600;margin-top:6px;transition:all .2s}
+.btn-primary{background:#e6b450;color:#0d1117}
+.btn-primary:hover{background:#d4a441;transform:translateY(-1px)}
+.btn-secondary{background:#21262d;color:#7d8590;border:1px solid #30363d;margin-top:8px}
+.btn-secondary:hover{color:#e6edf3}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;color:#7d8590;text-align:center}
+.empty .icon{font-size:56px;opacity:.3}
+.workflow{display:none;flex-direction:column;gap:16px}
+.workflow.show{display:flex}
+.step{background:#161b22;border:1px solid #30363d;border-radius:8px;overflow:hidden;opacity:0;transform:translateY(8px);animation:slideIn .4s ease forwards}
+@keyframes slideIn{to{opacity:1;transform:translateY(0)}}
+.step-head{display:flex;align-items:center;gap:12px;padding:13px 18px;background:#1c2128;border-bottom:1px solid #30363d}
+.step-num{width:28px;height:28px;border-radius:50%;background:#3fb950;color:#0d1117;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:monospace}
+.step-name{font-weight:600;font-size:14px}
+.step-time{margin-left:auto;font-size:11px;color:#7d8590;font-family:monospace}
+.step-body{padding:18px;display:flex;flex-direction:column;gap:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.info{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:10px 12px}
+.info-lbl{font-size:10px;color:#7d8590;font-family:monospace;margin-bottom:4px}
+.info-val{font-size:14px;font-weight:500}
+.acc{color:#e6b450}.blu{color:#58a6ff}.grn{color:#3fb950}
+.checks{display:flex;flex-direction:column;gap:6px}
+.check{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:13px}
+.spine{display:inline-flex;flex-direction:column;align-items:center;border:2px solid #e6b450;border-radius:4px;padding:10px 18px;gap:3px;background:#0d1117;min-width:80px}
+.spine-line{font-family:monospace;font-size:15px;font-weight:700;text-align:center}
+.bc-label{background:#fff;color:#111;border-radius:6px;padding:14px 18px;max-width:300px;font-family:monospace}
+.bc-head{font-size:11px;font-weight:700;text-align:center;border-bottom:1px solid #ddd;padding-bottom:6px;margin-bottom:8px}
+.bc-title{font-size:12px;font-weight:600;margin-bottom:4px}
+.bc-dkcb{font-size:11px;color:#555;margin-bottom:8px}
+.bc-bars{width:100%;height:36px;background:repeating-linear-gradient(90deg,#111 0,#111 2px,#fff 2px,#fff 4px,#111 4px,#111 5px,#fff 5px,#fff 7px,#111 7px,#111 9px,#fff 9px,#fff 12px)}
+.bc-num{font-size:10px;text-align:center;margin-top:4px}
+.bc-cn{font-size:10px;color:#555;text-align:right;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:10px;text-transform:uppercase;color:#7d8590;padding:8px 12px;text-align:left;border-bottom:1px solid #30363d;font-family:monospace}
+td{padding:9px 12px;border-bottom:1px solid #1c2128}
+tr:hover td{background:#1c2128}
+.tag{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;font-family:monospace}
+.tag-y{background:rgba(230,180,80,.15);color:#e6b450}
+.tag-b{background:rgba(88,166,255,.15);color:#58a6ff}
+.tag-g{background:rgba(63,185,80,.15);color:#3fb950}
+.summary{background:linear-gradient(135deg,#1a2332,#162032);border:1px solid #58a6ff;border-radius:8px;padding:20px}
+.sum-title{font-family:monospace;font-size:11px;color:#58a6ff;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px}
+.sum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:center}
+.sum-num{font-size:28px;font-weight:700;font-family:monospace;color:#e6b450}
+.sum-lbl{font-size:11px;color:#7d8590;margin-top:2px}
+.prog{width:100%;height:4px;background:#30363d;border-radius:2px;overflow:hidden;margin-top:16px}
+.prog-fill{height:100%;background:linear-gradient(90deg,#58a6ff,#e6b450);width:0%;transition:width .8s ease}
+.loading{display:none;align-items:center;gap:12px;color:#7d8590;font-family:monospace;font-size:13px;padding:20px 0}
+.loading.show{display:flex}
+.spin{width:18px;height:18px;border:2px solid #30363d;border-top-color:#e6b450;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}.sidebar{border-right:none;border-bottom:1px solid #30363d}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Thư Viện Phenikaa <span>QT.02.TV.NV</span></div>
+  <nav>
+    <a href="#" class="active">+ Thêm sách</a>
+    <a href="#" onclick="showBooks()">Danh sách</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <!-- FORM -->
+  <aside class="sidebar">
+    <div class="section-title">Thông tin tài liệu</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>ISBN</label>
+        <input id="isbn" placeholder="9786047574162">
+      </div>
+      <div class="form-group">
+        <label>Loại tài liệu *</label>
+        <select id="docType">
+          <option value="GT">Giáo trình</option>
+          <option value="TK" selected>Tài liệu tham khảo</option>
+          <option value="LV">Luận văn</option>
+          <option value="LA">Luận án</option>
+          <option value="BC">Báo cáo khoa học</option>
+          <option value="TC">Tạp chí</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Nhan đề *</label>
+      <input id="title" placeholder="VD: Lập trình Java nâng cao">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tác giả *</label>
+        <input id="author" placeholder="Nguyễn Văn An">
+      </div>
+      <div class="form-group">
+        <label>Nhà xuất bản</label>
+        <input id="publisher" placeholder="NXB Bách Khoa HN">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Năm xuất bản *</label>
+        <input id="year" type="number" value="2024">
+      </div>
+      <div class="form-group">
+        <label>Số trang</label>
+        <input id="pages" type="number" placeholder="0">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Lần XB</label>
+        <input id="edition" type="number" value="1">
+      </div>
+      <div class="form-group">
+        <label>Đơn giá (VNĐ)</label>
+        <input id="price" type="number" placeholder="0">
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:8px">Phân loại</div>
+
+    <div class="form-group">
+      <label>Mã DDC (để trống = tự động gợi ý)</label>
+      <input id="ddc" placeholder="VD: 005.133">
+    </div>
+
+    <div class="form-group">
+      <label>Từ khoá / Đề mục chủ đề</label>
+      <textarea id="keywords" placeholder="VD: lập trình; java; spring; database"></textarea>
+    </div>
+
+    <div class="section-title" style="margin-top:8px">Nhập kho</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Số bản nhập *</label>
+        <input id="copies" type="number" value="3" min="1" max="99">
+      </div>
+      <div class="form-group">
+        <label>Nhân viên</label>
+        <input id="staff" value="Nguyễn Thị Hương">
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="runCatalog()">▶ Thực hiện Biên mục (5 bước)</button>
+    <button class="btn btn-secondary" onclick="reset()">↺ Nhập mới</button>
+  </aside>
+
+  <!-- KẾT QUẢ -->
+  <main class="main" id="main">
+    <div class="empty" id="empty">
+      <div class="icon">📚</div>
+      <p>Nhập thông tin tài liệu<br>và nhấn <strong>Thực hiện Biên mục</strong></p>
+    </div>
+    <div class="loading" id="loading">
+      <div class="spin"></div>
+      <span id="loadTxt">Đang xử lý...</span>
+    </div>
+    <div class="workflow" id="workflow"></div>
+  </main>
+</div>
+
+<script>
+// ── DDC Engine ────────────────────────────────────────────────
+const DDC=[
+  [/java|spring|hibernate|maven/i,"005.133","Ngôn ngữ lập trình Java"],
+  [/python|django|flask|pandas/i,"005.133","Ngôn ngữ lập trình Python"],
+  [/javascript|nodejs|react|vue|angular/i,"005.133","Ngôn ngữ lập trình JavaScript"],
+  [/lập trình|programming|algorithm|thuật toán|data structure|cấu trúc dữ liệu/i,"005.1","Lập trình"],
+  [/database|cơ sở dữ liệu|sql|mysql|mongodb|postgresql/i,"005.74","Quản trị cơ sở dữ liệu"],
+  [/network|mạng máy tính|tcp|ip|cisco/i,"004.6","Mạng máy tính"],
+  [/bảo mật|security|mã hóa|cryptograph/i,"005.8","Bảo mật thông tin"],
+  [/machine learning|trí tuệ nhân tạo|artificial intelligence|học máy/i,"006.3","Trí tuệ nhân tạo"],
+  [/deep learning|neural network|mạng nơ-ron/i,"006.32","Học sâu"],
+  [/toán|mathematics|đại số|giải tích|calculus|algebra/i,"510","Toán học"],
+  [/xác suất|thống kê|statistics|probability/i,"519","Xác suất thống kê"],
+  [/vật lý|physics|cơ học/i,"530","Vật lý"],
+  [/hóa học|chemistry|phản ứng/i,"540","Hóa học"],
+  [/sinh học|biology|di truyền/i,"570","Sinh học"],
+  [/điện tử|electronic|kỹ thuật điện|circuit/i,"621.3","Kỹ thuật điện - điện tử"],
+  [/xây dựng|civil|bê tông|kết cấu/i,"624","Kỹ thuật xây dựng"],
+  [/cơ khí|mechanical|động cơ/i,"621","Kỹ thuật cơ khí"],
+  [/y học|medicine|dược|điều dưỡng/i,"610","Y học"],
+  [/kế toán|accounting|kiểm toán/i,"657","Kế toán"],
+  [/quản trị|management|quản lý doanh nghiệp/i,"658","Quản lý tổng hợp"],
+  [/marketing|thương hiệu|thị trường/i,"658.8","Quản lý marketing"],
+  [/kinh tế|economics|vi mô|vĩ mô/i,"330","Kinh tế học"],
+  [/tài chính|finance|ngân hàng|banking/i,"332","Kinh tế tài chính"],
+  [/luật|law|pháp luật|hiến pháp/i,"340","Luật pháp"],
+  [/giáo dục|education|sư phạm/i,"370","Giáo dục"],
+  [/tâm lý|psychology|hành vi/i,"150","Tâm lý học"],
+  [/văn học|tiểu thuyết|truyện|thơ/i,"895.9","Văn học Việt Nam"],
+  [/lịch sử việt nam|kháng chiến/i,"959.7","Lịch sử Việt Nam"],
+  [/lịch sử|history/i,"900","Lịch sử"],
+];
+
+const CUTTER={
+  "A":"A1","An":"A53","B":"B1","Ba":"B12","Bi":"B55","Bo":"B63","Bu":"B86",
+  "C":"C1","Ca":"C12","Ch":"C45","Co":"C63","D":"D1","Da":"D12","De":"D35",
+  "Di":"D55","Do":"D63","Du":"D86","G":"G1","Gi":"G55","H":"H1","Ha":"H12",
+  "He":"H35","Hi":"H55","Ho":"H63","Hu":"H86","K":"K1","Kh":"K45","L":"L1",
+  "La":"L12","Le":"L35","Li":"L55","Lo":"L63","Lu":"L86","M":"M1","Ma":"M12",
+  "N":"N1","Na":"N12","Ng":"N48","Ngu":"N489","P":"P1","Ph":"P45","Q":"Q1",
+  "Qu":"Q83","S":"S1","Sa":"S12","T":"T1","Ta":"T12","Th":"T45","Ti":"T55",
+  "To":"T63","Tr":"T75","Tu":"T86","V":"V1","Va":"V12","Vi":"V55","Vo":"V63",
+  "Vu":"V86"
+};
+
+const WAREHOUSE={GT:"KGT – Kho Giáo trình",LV:"KLV – Kho Luận văn",LA:"KLV – Kho Luận văn",BC:"KLV – Kho Luận án/BC",TK:"PDM – Phòng đọc mở",TC:"PBQ – Phòng Bảo quản",ST:"PDM – Phòng đọc mở"};
+const DOCTYPE_LABEL={GT:"Giáo trình",TK:"Tài liệu tham khảo",LV:"Luận văn",LA:"Luận án",BC:"Báo cáo KH",TC:"Tạp chí"};
+
+let barcodeSeq=1000, dkcbSeq={GT:1,TK:1,LV:1,LA:1,BC:1,TC:1,TL:1};
+let allBooks=[];
+
+function suggestDDC(txt){
+  for(const[r,code,name] of DDC) if(r.test(txt)) return{code,name};
+  return{code:"000",name:"Chưa phân loại"};
+}
+
+function removeDia(s){
+  return s.normalize("NFD").replace(/\p{Diacritic}/gu,"").replace(/[đĐ]/g,"d");
+}
+
+function cutter(title){
+  let t=title.trim();
+  for(const a of["The ","A ","An ","Một ","Những ","Các "]){
+    if(t.startsWith(a)){t=t.slice(a.length).trim();break;}
+  }
+  const w=removeDia(t.split(/\s+/)[0]);
+  for(let l=Math.min(4,w.length);l>=1;l--){
+    const p=w[0].toUpperCase()+w.slice(1,l).toLowerCase();
+    if(CUTTER[p]) return CUTTER[p];
+  }
+  return w.slice(0,2).toUpperCase()+"1";
+}
+
+function genBarcode(){
+  const d=new Date();
+  const ds=d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+  return`PKA-${ds}-${String(barcodeSeq++).padStart(6,"0")}`;
+}
+
+function genDKCB(type){
+  const y=new Date().getFullYear();
+  const t=dkcbSeq[type]!==undefined?type:"TL";
+  return`${t}.${y}.${String(dkcbSeq[t]++).padStart(6,"0")}`;
+}
+
+function shelf(ddc,n){
+  try{
+    const v=parseInt((ddc+"000").replace(".","").slice(0,3));
+    const r=String.fromCharCode(65+Math.floor(v/100));
+    const b=Math.floor((v%100)/10)+1;
+    const s=(v%10)+1+Math.floor((n-1)/5);
+    return`${r}${b}-${s}`;
+  }catch{return"A1-1";}
+}
+
+function validateIsbn13(isbn){
+  const c=isbn.replace(/[\s-]/g,"");
+  if(c.length!==13||!/^\d+$/.test(c))return false;
+  let s=0;
+  for(let i=0;i<12;i++) s+=parseInt(c[i])*(i%2===0?1:3);
+  return(10-s%10)%10===parseInt(c[12]);
+}
+
+async function runCatalog(){
+  const title=document.getElementById("title").value.trim();
+  const author=document.getElementById("author").value.trim();
+  if(!title){alert("Vui lòng nhập Nhan đề!");return;}
+  if(!author){alert("Vui lòng nhập Tác giả!");return;}
+
+  const isbn=document.getElementById("isbn").value.trim();
+  const publisher=document.getElementById("publisher").value.trim();
+  const year=parseInt(document.getElementById("year").value)||2024;
+  const pages=parseInt(document.getElementById("pages").value)||0;
+  const edition=parseInt(document.getElementById("edition").value)||1;
+  const price=parseInt(document.getElementById("price").value)||0;
+  const docType=document.getElementById("docType").value;
+  const ddcManual=document.getElementById("ddc").value.trim();
+  const keywords=document.getElementById("keywords").value.trim();
+  const copyCount=Math.max(1,parseInt(document.getElementById("copies").value)||1);
+  const staff=document.getElementById("staff").value.trim()||"NV Biên mục";
+
+  // Validate ISBN
+  if(isbn && !validateIsbn13(isbn)){
+    if(!confirm(`ISBN "${isbn}" không hợp lệ. Vẫn tiếp tục?`)) return;
+  }
+
+  document.getElementById("empty").style.display="none";
+  document.getElementById("workflow").className="workflow";
+  document.getElementById("workflow").innerHTML="";
+  document.getElementById("loading").className="loading show";
+
+  const text=title+" "+keywords;
+  const ddc=ddcManual?{code:ddcManual,name:ddcManual}:suggestDDC(text);
+  const cut=cutter(title);
+  const callNum=`${ddc.code} ${cut} ${year}`;
+  const wh=WAREHOUSE[docType]||"PDM – Phòng đọc mở";
+  const sourceDoc=`BM.01.${docType}.${Date.now()%10000}`;
+
+  const copyList=[];
+  for(let i=1;i<=copyCount;i++){
+    copyList.push({num:i,bc:genBarcode(),dkcb:genDKCB(docType),shelf:shelf(ddc.code,i)});
+  }
+
+  // Lưu sách
+  allBooks.push({title,author,publisher,year,isbn,docType,ddc:ddc.code,callNum,copies:copyCount,staff,date:new Date().toLocaleDateString("vi")});
+
+  const wf=document.getElementById("workflow");
+  const steps=[
+    ["Tiếp nhận tài liệu mới","½ ngày | BM.01.QT.02.TV.NV"],
+    ["Phân kho – Đóng dấu – Dán mã vạch","3 phút/bản"],
+    ["Xử lý nghiệp vụ – Biên mục vào Koha","~15 phút/tài liệu"],
+    ["In nhãn – Dán gáy cho tài liệu","3 phút/bản"],
+    ["Giao về kho – Xếp giá","BM.03.QT.02.TV.NV"],
+  ];
+
+  for(let i=0;i<5;i++){
+    document.getElementById("loadTxt").textContent=`Bước ${i+1}: ${steps[i][0]}...`;
+    await delay(450);
+
+    let html="";
+    if(i===0){
+      html=`
+      <div class="step" style="animation-delay:0s">
+        <div class="step-head"><div class="step-num">1</div><div class="step-name">${steps[0][0]}</div><div class="step-time">${steps[0][1]}</div></div>
+        <div class="step-body">
+          <div class="grid">
+            <div class="info"><div class="info-lbl">Nhan đề</div><div class="info-val">${title}</div></div>
+            <div class="info"><div class="info-lbl">Tác giả</div><div class="info-val">${author}</div></div>
+            <div class="info"><div class="info-lbl">Nhà xuất bản</div><div class="info-val">${publisher||"—"}</div></div>
+            <div class="info"><div class="info-lbl">Năm / Lần XB</div><div class="info-val">${year} / Lần ${edition}</div></div>
+            ${isbn?`<div class="info"><div class="info-lbl">ISBN</div><div class="info-val ${validateIsbn13(isbn)?"grn":"acc"}">${isbn} ${validateIsbn13(isbn)?"✓":"✗"}</div></div>`:""}
+            <div class="info"><div class="info-lbl">Loại tài liệu</div><div class="info-val acc">${DOCTYPE_LABEL[docType]||docType}</div></div>
+            <div class="info"><div class="info-lbl">Số bản nhập</div><div class="info-val blu">${copyCount} bản</div></div>
+            ${pages>0?`<div class="info"><div class="info-lbl">Số trang</div><div class="info-val">${pages} trang</div></div>`:""}
+            ${price>0?`<div class="info"><div class="info-lbl">Đơn giá</div><div class="info-val">${price.toLocaleString("vi")} đ</div></div>`:""}
+          </div>
+          <div class="checks">
+            <div class="check">✅ Phiếu nhập kho: <strong style="margin-left:6px">${sourceDoc}</strong></div>
+            <div class="check">✅ Xác nhận ${copyCount} bản – Tình trạng: Nguyên vẹn</div>
+          </div>
+        </div>
+      </div>`;
+    }
+    else if(i===1){
+      const rows=copyList.map(c=>`<tr><td>Bản ${c.num}</td><td><span class="tag tag-y">${c.dkcb}</span></td><td><span class="tag tag-b">${c.bc}</span></td></tr>`).join("");
+      html=`
+      <div class="step" style="animation-delay:.05s">
+        <div class="step-head"><div class="step-num">2</div><div class="step-name">${steps[1][0]}</div><div class="step-time">${steps[1][1]}</div></div>
+        <div class="step-body">
+          <table><thead><tr><th>Bản</th><th>Số ĐKCB</th><th>Mã vạch</th></tr></thead><tbody>${rows}</tbody></table>
+          <div class="checks">
+            <div class="check">✅ Đóng dấu Thư viện Phenikaa</div>
+            <div class="check">✅ Đóng dấu số ĐKCB từng bản</div>
+            <div class="check">✅ Dán mã vạch – Phần mềm TV Koha</div>
+            <div class="check">✅ Kho phân phối: <strong style="margin-left:6px">${wh}</strong></div>
+          </div>
+        </div>
+      </div>`;
+    }
+    else if(i===2){
+      html=`
+      <div class="step" style="animation-delay:.1s">
+        <div class="step-head"><div class="step-num">3</div><div class="step-name">${steps[2][0]}</div><div class="step-time">${steps[2][1]}</div></div>
+        <div class="step-body">
+          <div class="grid">
+            <div class="info"><div class="info-lbl">Mã DDC 23</div><div class="info-val acc" style="font-size:22px;font-family:monospace">${ddc.code}</div></div>
+            <div class="info"><div class="info-lbl">Tên lớp DDC</div><div class="info-val">${ddc.name}</div></div>
+            <div class="info"><div class="info-lbl">Chỉ số Cutter</div><div class="info-val blu" style="font-size:20px;font-family:monospace">${cut}</div></div>
+            <div class="info"><div class="info-lbl">Ký hiệu xếp giá</div><div class="info-val grn" style="font-size:16px;font-family:monospace">${callNum}</div></div>
+            ${keywords?`<div class="info" style="grid-column:1/-1"><div class="info-lbl">Từ khoá</div><div class="info-val">${keywords}</div></div>`:""}
+          </div>
+          <div class="checks">
+            <div class="check">✅ Phân loại theo DDC 23</div>
+            <div class="check">✅ Tính chỉ số Cutter theo nhan đề</div>
+            <div class="check">✅ Tạo ký hiệu xếp giá: <strong style="margin-left:6px;font-family:monospace">${callNum}</strong></div>
+            <div class="check">✅ Biên mục vào phần mềm TV Koha</div>
+          </div>
+        </div>
+      </div>`;
+    }
+    else if(i===3){
+      const labels=copyList.slice(0,4).map(c=>`
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div class="spine"><div class="spine-line">${ddc.code}</div><div class="spine-line">${cut}</div><div class="spine-line">${year}</div></div>
+          <div style="font-size:10px;color:#7d8590;font-family:monospace">Bản ${c.num}</div>
+        </div>`).join("");
+      const bc=copyList[0];
+      html=`
+      <div class="step" style="animation-delay:.15s">
+        <div class="step-head"><div class="step-num">4</div><div class="step-name">${steps[3][0]}</div><div class="step-time">${steps[3][1]}</div></div>
+        <div class="step-body">
+          <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+            <div>
+              <div class="info-lbl" style="margin-bottom:10px">Nhãn gáy (${copyCount} bản)</div>
+              <div style="display:flex;gap:12px;flex-wrap:wrap">${labels}</div>
+              ${copyCount>4?`<div style="font-size:11px;color:#7d8590;margin-top:8px;font-family:monospace">... và ${copyCount-4} bản khác</div>`:""}
+            </div>
+            <div>
+              <div class="info-lbl" style="margin-bottom:10px">Nhãn mã vạch (Bản 1)</div>
+              <div class="bc-label">
+                <div class="bc-head">THƯ VIỆN TRƯỜNG ĐH PHENIKAA</div>
+                <div class="bc-title">${title.length>35?title.slice(0,32)+"...":title}</div>
+                <div class="bc-dkcb">ĐKCB: ${bc.dkcb}</div>
+                <div class="bc-bars"></div>
+                <div class="bc-num">${bc.bc}</div>
+                <div class="bc-cn">${callNum}</div>
+              </div>
+            </div>
+          </div>
+          <div class="checks">
+            <div class="check">✅ In nhãn gáy ${copyCount} bản – Dán gáy hoàn thành</div>
+            <div class="check">✅ Dán nhãn mã vạch vào bìa trong</div>
+          </div>
+        </div>
+      </div>`;
+    }
+    else if(i===4){
+      const rows=copyList.map(c=>`<tr><td>Bản ${c.num}</td><td><span class="tag tag-y">${c.dkcb}</span></td><td>${wh.split("–")[1]?.trim()||wh}</td><td><strong>${c.shelf}</strong></td><td><span class="tag tag-g">Có sẵn</span></td></tr>`).join("");
+      html=`
+      <div class="step" style="animation-delay:.2s">
+        <div class="step-head"><div class="step-num">5</div><div class="step-name">${steps[4][0]}</div><div class="step-time">${steps[4][1]}</div></div>
+        <div class="step-body">
+          <table><thead><tr><th>Bản</th><th>ĐKCB</th><th>Kho</th><th>Vị trí giá</th><th>Trạng thái</th></tr></thead><tbody>${rows}</tbody></table>
+          <div class="checks">
+            <div class="check">✅ Xếp theo môn loại DDC</div>
+            <div class="check">✅ Biên bản bàn giao: BM.03.QT.02.TV.NV – ${copyCount} bản</div>
+            <div class="check">✅ Thông báo sách mới: BM.04.QT.02.TV.NV</div>
+          </div>
+        </div>
+      </div>
+      <div class="summary" style="animation:slideIn .4s ease .25s forwards;opacity:0">
+        <div class="sum-title">✅ Hoàn thành toàn bộ quy trình QT.02.TV.NV</div>
+        <div class="sum-grid">
+          <div><div class="sum-num">${copyCount}</div><div class="sum-lbl">Bản đã xử lý</div></div>
+          <div><div class="sum-num">${ddc.code}</div><div class="sum-lbl">Mã DDC 23</div></div>
+          <div><div class="sum-num" style="font-size:18px">${callNum}</div><div class="sum-lbl">Ký hiệu xếp giá</div></div>
+        </div>
+        <div class="prog"><div class="prog-fill" id="pf"></div></div>
+        <div style="font-family:monospace;font-size:11px;color:#7d8590;text-align:right;margin-top:6px">5/5 bước hoàn thành – ${allBooks.length} tài liệu trong hệ thống</div>
+      </div>`;
+    }
+
+    wf.innerHTML+=html;
+    wf.className="workflow show";
+    setTimeout(()=>{const p=document.getElementById("pf");if(p)p.style.width="100%"},600);
+  }
+
+  document.getElementById("loading").className="loading";
+}
+
+function showBooks(){
+  if(allBooks.length===0){alert("Chưa có tài liệu nào. Hãy thêm sách trước!");return;}
+  const wf=document.getElementById("workflow");
+  document.getElementById("empty").style.display="none";
+  const rows=allBooks.map((b,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${b.title}</strong><br><small style="color:#7d8590">${b.author}</small></td>
+      <td><span class="tag tag-y">${b.ddc}</span></td>
+      <td><span class="tag tag-b" style="font-size:12px">${b.callNum}</span></td>
+      <td><span class="tag tag-g">${b.docType}</span></td>
+      <td style="color:#7d8590">${b.copies}</td>
+      <td style="color:#7d8590;font-size:12px">${b.date}</td>
+    </tr>`).join("");
+  wf.innerHTML=`
+    <div class="step show" style="opacity:1;transform:none">
+      <div class="step-head">
+        <div class="step-num" style="background:#58a6ff">📋</div>
+        <div class="step-name">Danh sách tài liệu đã biên mục</div>
+        <div class="step-time">${allBooks.length} đầu sách</div>
+      </div>
+      <div class="step-body">
+        <table>
+          <thead><tr><th>#</th><th>Nhan đề / Tác giả</th><th>DDC</th><th>Ký hiệu xếp giá</th><th>Loại</th><th>Bản</th><th>Ngày</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+  wf.className="workflow show";
+}
+
+function reset(){
+  document.getElementById("title").value="";
+  document.getElementById("isbn").value="";
+  document.getElementById("author").value="";
+  document.getElementById("publisher").value="";
+  document.getElementById("keywords").value="";
+  document.getElementById("ddc").value="";
+  document.getElementById("copies").value="3";
+  document.getElementById("price").value="";
+  document.getElementById("pages").value="";
+  document.getElementById("empty").style.display="";
+  document.getElementById("workflow").className="workflow";
+  document.getElementById("workflow").innerHTML="";
+  document.getElementById("loading").className="loading";
+}
+
+function delay(ms){return new Promise(r=>setTimeout(r,ms));}
+</script>
+</body>
+</html>
